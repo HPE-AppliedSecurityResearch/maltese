@@ -84,15 +84,9 @@ def send_dns_request(item, interval = None, src = None, dryrun = True, interface
 		domain = item
 		if not dryrun:
 			if src is None:
-				if interface is None:
-					sendp(Ether()/IP(dst=ns)/UDP()/DNS(rd=1, qd=DNSQR(qname=domain)), inter=interval)
-				else:
-					sendp(Ether()/IP(dst=ns)/UDP()/DNS(rd=1, qd=DNSQR(qname=domain)), inter=interval, iface=interface)
+				sendp(Ether()/IP(dst=ns)/UDP()/DNS(rd=1, qd=DNSQR(qname=domain)), inter=interval, iface=interface)
 			else:
-				if interface is None:
-					sendp(Ether()/IP(dst=ns, src=src)/UDP()/DNS(rd=1, qd=DNSQR(qname=domain)), inter=interval)
-				else:
-					sendp(Ether()/IP(dst=ns, src=src)/UDP()/DNS(rd=1, qd=DNSQR(qname=domain)), inter=interval, iface=interface)
+				sendp(Ether()/IP(dst=ns, src=src)/UDP()/DNS(rd=1, qd=DNSQR(qname=domain)), inter=interval, iface=interface)
 
 	print(domain)
 	
@@ -101,7 +95,9 @@ def send_dns_request(item, interval = None, src = None, dryrun = True, interface
 
 
 def get_local_ip():
-	return [ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.") and (ip.startswith("192.") or ip.startswith("10."))][0]
+	local_ip = [l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0]
+	print(local_ip)
+	return local_ip
 
 
 def get_default_dnsserver():
