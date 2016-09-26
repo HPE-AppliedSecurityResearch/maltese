@@ -42,3 +42,6 @@ required arguments:
   -p {list,pcap}        Replay Plugin module to run
   -i INPUT              Input file for replay.
 ```
+
+For details about various ways to evaluate a malware detector, please check out
+http://hpe.to/6047B7R0R
