@@ -102,6 +102,7 @@ class main():
 
 	def main(self):
 		#Read master config
+		self.configuration["conf_file"] = args.conf_file
 		configutils.readconfig(self, ".")
 
 		algo = self.get_algo()
@@ -126,12 +127,14 @@ if __name__ == "__main__":
 		dgarequired = dgaparser.add_argument_group('required arguments')
 		dgarequired.add_argument('-p', dest='plugin', required=True, help='DGA Plugin module to run', choices=utils.get_plugins(IDgaPlugin))
 		dgaparser.add_argument('-l', dest='loglevel', choices=['error', 'warning', 'info', 'debug'], default='error', help='Logging level. Default is error')
+		dgaparser.add_argument('-c', dest='conf_file', default='maltese', help='Configuration file name')
 		
 		replayparser = subparsers.add_parser('replay', help='Execute Replay plugins')
 		replayrequired = replayparser.add_argument_group('required arguments')
 		replayrequired.add_argument('-p', dest='plugin', required=True, help='Replay Plugin module to run', choices=utils.get_plugins(IReplayPlugin))
 		replayrequired.add_argument('-i', dest='input', type=argparse.FileType('r'), required=True, help='Input file for replay.')
 		replayparser.add_argument('-l', dest='loglevel', choices=['error', 'warning', 'info', 'debug'], default='error', help='Logging level. Default is error')
+		replayparser.add_argument('-c', dest='conf_file', default='maltese', help='Configuration file name')
 
 		args = parser.parse_args()
 

@@ -36,7 +36,7 @@ def readconfig(plugin, dir):
 		path = os.path.join(os.getcwd(), "conf", dir)
 		name = plugin.__module__
 		if name == '__main__':
-			name = 'maltese'
+			name = plugin.configuration.get("conf_file")
 		file = open(os.path.join(path, name + ".conf"), 'r')
 		log.info("Configuration loaded from " + file.name)
 	except FileNotFoundError:
